@@ -1,5 +1,5 @@
 ---
-title: Bom
+title: Report
 ---
 # Scribe GitHub actions - `valint report`
 Scribe offers GitHub actions for embedding evidence collecting and validated integrity of your supply chain. \
