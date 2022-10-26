@@ -1,9 +1,13 @@
 ---
 title: Bom
 ---
-# Scribe GitHub actions - `gensbom bom`
-Scribe offers GitHub actions for embedding evidence collecting and integrity verification to your workflows. \
-Action 
+# Scribe GitHub actions - `valint report`
+Scribe offers GitHub actions for embedding evidence collecting and validated integrity of your supply chain. \
+
+`valint report` is used to collect evidence and generate an SBOM.
+
+Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+
 
 ## Other actions
 * [bom - action](https://github.com/scribe-security/action-bom/README.md)
@@ -69,6 +73,10 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 ```
 
 # Integrations
+
+## Before you begin
+Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
+
 ## Scribe service integration
 Scribe provides a set of services to store, verify and manage the supply chain integrity. \
 Following are some integration examples.
