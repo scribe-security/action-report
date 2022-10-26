@@ -63,7 +63,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 ```YAML
 - name: Valint - download report
   id: valint_report
-  uses: scribe-security/actions/valint/report@master
+  uses: scribe-security/action-report@master
   with:
       verbose: 2
       scribe-enable: true
@@ -144,7 +144,7 @@ jobs:
 
       - name: Valint - download report
         id: valint_report
-        uses: scribe-security/actions/valint/report@master
+        uses: scribe-security/action-report@master
         with:
            verbose: 2
            scribe-enable: true
@@ -211,7 +211,7 @@ jobs:
 
       - name: Valint - download report
         id: valint_report
-        uses: scribe-security/actions/valint/report@master
+        uses: scribe-security/action-report@master
         with:
            verbose: 2
            scribe-enable: true
@@ -238,7 +238,7 @@ Valint downloading integrity report from scribe service
 ```YAML
   - name: Valint - download report
     id: valint_report
-    uses: scribe-security/actions/valint/report@master
+    uses: scribe-security/action-report@master
     with:
         verbose: 2
         scribe-enable: true
@@ -256,7 +256,7 @@ Valint downloading integrity report from scribe service
 ```YAML
   - name: Valint - download report
     id: valint_report
-    uses: scribe-security/actions/valint/report@master
+    uses: scribe-security/action-report@master
     with:
         verbose: 2
         scribe-enable: true
