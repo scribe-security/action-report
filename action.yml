@@ -1,96 +1,69 @@
-name: 'Gensbom: bom'
-description: 'Generates a Software Bill Of Materials (SBOM) from container images and filesystems'
+name: 'Valint: report'
+description: 'Valint tool provides a tool to verify integrity of a supply chain'
 author: Mikey Strauss
 outputs:
   output-file:
-    description: 'Bom output file path'
+    description: 'Report output file path'
 inputs:
-  type:
-    description: 'Target source type options=[docker,docker-archive, oci-archive, dir, registry]'
-    default: registry
-  target:
-    description: 'Target object name format=[<image:tag>, <dir_path>]'
-    required: true
   verbose:
     description: 'Increase verbosity (-v = info, -vv = debug)'
     default: 1
   config:
     description: 'Application config file'
-  format:
-    description: 'Sbom formatter, options=[cyclonedx-json cyclonedx-xml attest-cyclonedx-json statement-cyclonedx-json predicate-cyclonedx-json attest-slsa statement-slsa predicate-slsa]'
   output-directory:
-    description: 'Report output directory'
-    default: ./scribe/gensbom
+    description: 'Output directory path'
+    default: ./scribe/valint
   output-file:
-    description: 'Output result to file'
-  product-key:
-    description: 'Custom/project product key'
-  label:
-    description: 'Custom label'
-  env:
-    description: 'Custom env'
-  filter-regex:
-    description: 'Filter out files by regex'
-  attach-regex:
-    description: 'Attach files content by regex'
-  force:
-    description: 'Force overwrite cache'
-    default: false
-  attest-config:
-    description: 'Attestation config map'
-  attest-name:
-    description: 'Attestation config name (default "gensbom")'
-  attest-default:
-    description: 'Attestation default config, options=[sigstore sigstore-github x509]'
-    default: sigstore-github
+    description: 'Output file path'
   scribe-enable:
     description: 'Enable scribe client'
     default: false
+  product-key:
+    description: 'Custom/project product key'
   scribe-client-id:
     description: 'Scribe client id' 
   scribe-client-secret:
     description: 'Scribe access token' 
   scribe-url:
-    description: 'Scribe url'
+    description: 'Scribe url' 
   scribe-login-url:
     description: 'Scribe auth login url' 
   scribe-audience:
     description: 'Scribe auth audience' 
   context-dir:
     description: 'Context dir' 
-  components :
-    description: 'Select sbom components groups, options=[metadata layers packages files dep] (default [metadata,layers,packages,files,dep])'
+  section:
+    description: 'Select report sections'
+  integrity:
+    description: 'Select report integrity'
+  backoff:
+    description: 'Backoff duration'
+  timeout:  
+    description: 'Timeout duration'
 
 runs:
   using: docker
-  image: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/gensbom:latest 
+  image: docker://scribesecuriy.jfrog.io/scribe-docker-public-local/valint:latest 
   args:
-    - bom
-    - ${{ inputs.type }}:${{ inputs.target }}
+    - report
     - --verbose=${{ inputs.verbose }}
-    - ${{ inputs.config && '--config=' }}${{ inputs.config }}
-    - ${{ inputs.format && '--format=' }}${{ inputs.format }}
-    - ${{ inputs.product-key && '--product-key=' }}${{ inputs.product-key }}
-    - ${{ inputs.label && '--label=' }}${{ inputs.label }}
-    - ${{ inputs.env && '--env=' }}${{ inputs.env }}
-    - ${{ inputs.filter-regex && '--filter-regex=' }}${{ inputs.filter-regex }}
-    - ${{ inputs.attach-regex && '--attach-regex=' }}${{ inputs.attach-regex }}
+    - ${{ inputs.config && '--config=' }}${{ inputs.config }} 
     - --context-type=github
     - ${{ inputs.output-directory && '--output-directory=' }}${{ inputs.output-directory }}
-    - ${{ inputs.force && '--force=' }}${{ inputs.force }}
-    - ${{ inputs.attest-name && '--attest.name=' }}${{ inputs.attest-name }}
-    - ${{ inputs.attest-default && '--attest.default=' }}${{ inputs.attest-default }}
-    - ${{ inputs.attest-config && '--attest.config=' }}${{ inputs.attest-config }}
     - ${{ inputs.scribe-enable && '--scribe.enable=' }}${{ inputs.scribe-enable }}
+    - ${{ inputs.output-file && '--output-file=' }}${{ inputs.output-file }}
+    - ${{ inputs.product-key && '--product-key=' }}${{ inputs.product-key }}
     - ${{ inputs.scribe-client-id && '--scribe.client-id=' }}${{ inputs.scribe-client-id }}
     - ${{ inputs.scribe-client-secret && '--scribe.client-secret=' }}${{ inputs.scribe-client-secret }}
     - ${{ inputs.scribe-url && '--scribe.url=' }}${{ inputs.scribe-url }}
     - ${{ inputs.scribe-login-url && '--scribe.login-url=' }}${{ inputs.scribe-login-url }}
     - ${{ inputs.scribe-audience && '--scribe.auth.audience=' }}${{ inputs.scribe-audience }}
-    - ${{ inputs.context-dir && '--scribe.context-dir=' }}${{ inputs.context-dir }}
-    - ${{ inputs.components && '--components=' }}${{ inputs.components }}
-
+    - ${{ inputs.context-dir && '--context-dir=' }}${{ inputs.context-dir }}
+    - ${{ inputs.section && '--section=' }}${{ inputs.section }}
+    - ${{ inputs.integrity && '--integrity=' }}${{ inputs.integrity }}
+    - ${{ inputs.backoff && '--backoff=' }}${{ inputs.backoff }}
+    - ${{ inputs.timeout && '--timeout=' }}${{ inputs.timeout }}
 
 branding:
   icon: shield
-  color: green
+  color: blue
