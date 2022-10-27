@@ -1,21 +1,21 @@
 ---
 title: Report
 ---
-# Scribe GitHub actions - `valint report`
-Scribe offers GitHub actions for embedding evidence collecting and validated integrity of your supply chain. \
+# Scribe GitHub Actions - `valint report`
+Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
 
-`valint report` is used to collect evidence and generate an SBOM.
+Use `valint report` to validate integrity of your supply chain.
 
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
 
-## Other actions
+## Other Actions
 * [bom - action](https://github.com/scribe-security/action-bom/README.md)
 * [verify - action](https://github.com/scribe-security/action-verify/README.md)
 * [integrity report - action](https://github.com/scribe-security/action-report/README.md)
 * [installer - action](https://github.com/scribe-security/action-installer/README.md)
 
-## Report action
+## Report Action
 Action for `valint report`.
 Once a set of evidence is uploaded to Scribe service an integrity report is generated on your build.
 At the end of your pipeline run, decide to accept or fail a build, depending on the integrity analysis result reported by Scribe.  
@@ -273,7 +273,7 @@ Valint downloading integrity report from scribe service
 Install gensbom as a tool
 ```YAML
 - name: install gensbom
-  uses: scribe-security/actions/gensbom/installer@master
+  uses: scribe-security/action-installer@master
 
 - name: gensbom run
   run: |
@@ -288,7 +288,7 @@ Install gensbom as a tool
 Install Valint as a tool
 ```YAML
 - name: install gensbom
-  uses: scribe-security/actions/gensbom/installer@master
+  uses: scribe-security/action-installer@master
   with:
     tool: valint
 
