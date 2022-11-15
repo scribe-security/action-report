@@ -1,7 +1,7 @@
 ---
-title: Bom
+title: Report
 ---
-# Scribe GitHub actions - `gensbom bom`
+# Scribe GitHub actions - `valint report`
 Scribe offers GitHub actions for embedding evidence collecting and integrity verification to your workflows. \
 Action 
 
@@ -73,13 +73,13 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 Scribe provides a set of services to store, verify and manage the supply chain integrity. \
 Following are some integration examples.
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
+Scribe integrity flow - upload evidence using `valint` and download the integrity report using `valint`. \
 You may collect evidence anywhere in your workflows.
 
 <details>
   <summary>  Scribe integrity report - full workflow </summary>
 
-Full workflow example of a workflow, upload evidence using gensbom and download report using Valint.
+Full workflow example of a workflow, upload evidence and download report using Valint.
 
 ```YAML
 name: example workflow
@@ -104,8 +104,8 @@ jobs:
           ref: refs/tags/v1.0.0-alpha.4
           path: mongo-express-scm
 
-      - name: gensbom Scm generate bom, upload to scribe
-        id: gensbom_bom_scm
+      - name: valint Scm generate bom, upload to scribe
+        id: valint_bom_scm
         uses: scribe-security/action-bom@master
         with:
            type: dir
@@ -123,8 +123,8 @@ jobs:
           push: true
           tags: mongo-express:1.0.0-alpha.4
 
-      - name: gensbom Image generate bom, upload to scribe
-        id: gensbom_bom_image
+      - name: valint Image generate bom, upload to scribe
+        id: valint_bom_image
         uses: scribe-security/action-bom@master
         with:
            target: 'mongo-express:1.0.0-alpha.4'
@@ -148,8 +148,8 @@ jobs:
         with:
           name: scribe-reports
           path: |
-            ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_scm.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
             ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
 </details>
@@ -158,7 +158,7 @@ jobs:
 <details>
   <summary>  Scribe integrity report - Multi workflow </summary>
 
-Full workflow example of a workflow, upload evidence using gensbom and download report using valint
+Full workflow example of a workflow, upload evidence and download report using valint
 
 ```YAML
 name: example workflow
@@ -190,8 +190,8 @@ jobs:
           push: true
           tags: mongo-express:1.0.0-alpha.4
 
-      - name: gensbom Image generate bom, upload to scribe
-        id: gensbom_bom_image
+      - name: valint Image generate bom, upload to scribe
+        id: valint_bom_image
         uses: scribe-security/action-bom@master
         with:
            target: 'mongo-express:1.0.0-alpha.4'
@@ -215,8 +215,8 @@ jobs:
         with:
           name: scribe-reports
           path: |
-            ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_scm.outputs.OUTPUT_PATH }}
+            ${{ steps.valint_bom_image.outputs.OUTPUT_PATH }}
             ${{ steps.valint_report.outputs.OUTPUT_PATH }}
 ```
 </details>
@@ -260,33 +260,18 @@ Valint downloading integrity report from scribe service
 </details>
 
 <details>
-  <summary> Install gensbom (tool) </summary>
+  <summary> Install valint (tool) </summary>
 
-Install gensbom as a tool
+Install valint as a tool
 ```YAML
-- name: install gensbom
-  uses: scribe-security/actions/gensbom/installer@master
-
-- name: gensbom run
-  run: |
-    gensbom --version
-    gensbom bom busybox:latest -vv
-``` 
-</details>
-
-<details>
-  <summary> Install Valint (tool) </summary>
-
-Install Valint as a tool
-```YAML
-- name: install gensbom
-  uses: scribe-security/actions/gensbom/installer@master
-  with:
-    tool: valint
+- name: install valint
+  uses: scribe-security/actions/valint/installer@master
 
 - name: valint run
   run: |
     valint --version
+    valint bom busybox:latest -vv
     valint report --scribe.client-id $SCRIBE_CLIENT_ID $SCRIBE_CLIENT_SECRET
+
 ``` 
 </details>
