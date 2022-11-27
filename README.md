@@ -102,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -125,7 +125,7 @@ jobs:
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Build and push remote
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
@@ -152,7 +152,7 @@ jobs:
            scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: scribe-reports
           path: |
@@ -181,7 +181,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -192,7 +192,7 @@ jobs:
           path: mongo-express-scm
 
       - name: Build and push remote
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
@@ -219,7 +219,7 @@ jobs:
            scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: scribe-reports
           path: |
