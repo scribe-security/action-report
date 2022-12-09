@@ -1,5 +1,6 @@
 ---
 title: Report
+sidebar_position: 2
 ---
 # Scribe GitHub Actions - `valint report`
 Scribe offers GitHub Actions for embedding evidence collecting and validated integrity of your supply chain.
@@ -23,7 +24,7 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 ### Input arguments
 ```yaml
   verbose:
-    description: 'Increase verbosity (-v = info, -vv = debug)'
+    description: 'Log verbosity level [-v,--verbose=1] = info, [-vv,--verbose=2] = debug'
     default: 1
   config:
     description: 'Application config file'
@@ -72,22 +73,31 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
       scribe-client-secret: ${{ secrets.client-secret }}
 ```
 
-# Integrations
+## Integrations
 
-## Before you begin
+### Before you begin
 Further documentation [Github integration](https://scribe-security.netlify.app/docs/ci-integrations/github/)
 
-## Scribe service integration
-Scribe provides a set of services to store, verify and manage the supply chain integrity. \
-Following are some integration examples.
+### Usage
+```yaml
+- name: Download integrity report
+  uses: scribe-security/action-report@master
+  with:
+      scribe-enable: true
+      product-key:  ${{ secrets.product-key }}
+      scribe-client-id: ${{ secrets.client-id }}
+      scribe-client-secret: ${{ secrets.client-secret }}
+```
 
-Scribe integrity flow - upload evidence using `gensbom` and download the integrity report using `valint`. \
-You may collect evidence anywhere in your workflows.
+### Scribe service integration
+
+If you are using Github Actions as your Continuous Integration tool (CI), use these instructions to integrate Scribe into your workflows to protect your projects.
 
 <details>
-  <summary>  Scribe integrity report - full workflow </summary>
+  <summary>  Scribe integrity report </summary>
 
-Full workflow example of a workflow, upload evidence using gensbom and download report using Valint.
+Full workflow example of a workflow, upload evidence on source and image to Scribe. <br />
+Download the integrity report,verifying the image integrity from Scribe.
 
 ```YAML
 name: example workflow
@@ -102,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -125,7 +135,7 @@ jobs:
            scribe-client-secret: ${{ secrets.client-secret }}
 
       - name: Build and push remote
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v2
         with:
           context: .
           push: true
@@ -152,74 +162,7 @@ jobs:
            scribe-client-id: ${{ secrets.client-id }}
            scribe-client-secret: ${{ secrets.client-secret }}
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: scribe-reports
-          path: |
-            ${{ steps.gensbom_bom_scm.outputs.OUTPUT_PATH }}
-            ${{ steps.gensbom_bom_image.outputs.OUTPUT_PATH }}
-            ${{ steps.valint_report.outputs.OUTPUT_PATH }}
-```
-</details>
-
-
-<details>
-  <summary>  Scribe integrity report - Multi workflow </summary>
-
-Full workflow example of a workflow, upload evidence using gensbom and download report using valint
-
-```YAML
-name: example workflow
-
-on: 
-  push:
-    tags:
-      - "*"
-
-jobs:
-  scribe-report-test:
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - uses: actions/checkout@v3
-        with:
-          repository: mongo-express/mongo-express
-          ref: refs/tags/v1.0.0-alpha.4
-          path: mongo-express-scm
-
-      - name: Build and push remote
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: mongo-express:1.0.0-alpha.4
-
-      - name: gensbom Image generate bom, upload to scribe
-        id: gensbom_bom_image
-        uses: scribe-security/action-bom@master
-        with:
-           target: 'mongo-express:1.0.0-alpha.4'
-           verbose: 2
-           scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
-
-      - name: Valint - download report
-        id: valint_report
-        uses: scribe-security/action-report@master
-        with:
-           verbose: 2
-           scribe-enable: true
-           product-key:  ${{ secrets.product-key }}
-           scribe-client-id: ${{ secrets.client-id }}
-           scribe-client-secret: ${{ secrets.client-secret }}
-
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v2
         with:
           name: scribe-reports
           path: |
@@ -236,15 +179,15 @@ jobs:
 Valint downloading integrity report from scribe service
 
 ```YAML
-  - name: Valint - download report
-    id: valint_report
-    uses: scribe-security/action-report@master
-    with:
-        verbose: 2
-        scribe-enable: true
-        product-key:  ${{ secrets.product-key }}
-        scribe-client-id: ${{ secrets.client-id }}
-        scribe-client-secret: ${{ secrets.client-secret }}
+- name: Valint - download report
+  id: valint_report
+  uses: scribe-security/action-report@master
+  with:
+      verbose: 2
+      scribe-enable: true
+      product-key:  ${{ secrets.product-key }}
+      scribe-client-id: ${{ secrets.client-id }}
+      scribe-client-secret: ${{ secrets.client-secret }}
 ```
 </details>
 
@@ -265,21 +208,6 @@ Valint downloading integrity report from scribe service
         scribe-client-secret: ${{ secrets.client-secret }}
         section: packages
 ```
-</details>
-
-<details>
-  <summary> Install gensbom (tool) </summary>
-
-Install gensbom as a tool
-```YAML
-- name: install gensbom
-  uses: scribe-security/action-installer@master
-
-- name: gensbom run
-  run: |
-    gensbom --version
-    gensbom bom busybox:latest -vv
-``` 
 </details>
 
 <details>
