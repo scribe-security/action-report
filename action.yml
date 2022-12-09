@@ -2,7 +2,7 @@ name: 'Valint: report'
 description: 'Valint tool provides a tool to verify integrity of a supply chain'
 author: Mikey Strauss
 outputs:
-  output-file:
+  output-path:
     description: 'Report output file path'
 inputs:
   verbose:
