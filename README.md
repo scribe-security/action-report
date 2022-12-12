@@ -56,8 +56,8 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
 
 ### Output arguments
 ```yaml
-  output-file:
-    description: 'Report output file path'
+  OUTPUT_PATH:
+    description: 'evidence output file path'
 ```
 
 ### Usage
