@@ -66,7 +66,6 @@ At the end of your pipeline run, decide to accept or fail a build, depending on 
   id: valint_report
   uses: scribe-security/action-report@master
   with:
-      verbose: 2
       scribe-enable: true
       product-key: ${{ secrets.product-key }}
       scribe-client-id: ${{ secrets.client-id }}
@@ -128,7 +127,6 @@ jobs:
         with:
            type: dir
            target: 'mongo-express-scm'
-           verbose: 2
            scribe-enable: true
            product-key:  ${{ secrets.product-key }}
            scribe-client-id: ${{ secrets.client-id }}
@@ -146,7 +144,6 @@ jobs:
         uses: scribe-security/action-bom@master
         with:
            target: 'mongo-express:1.0.0-alpha.4'
-           verbose: 2
            scribe-enable: true
            product-key:  ${{ secrets.product-key }}
            scribe-client-id: ${{ secrets.client-id }}
@@ -156,7 +153,6 @@ jobs:
         id: valint_report
         uses: scribe-security/action-report@master
         with:
-           verbose: 2
            scribe-enable: true
            product-key:  ${{ secrets.product-key }}
            scribe-client-id: ${{ secrets.client-id }}
@@ -183,7 +179,6 @@ Valint downloading integrity report from scribe service
   id: valint_report
   uses: scribe-security/action-report@master
   with:
-      verbose: 2
       scribe-enable: true
       product-key:  ${{ secrets.product-key }}
       scribe-client-id: ${{ secrets.client-id }}
@@ -201,7 +196,6 @@ Valint downloading integrity report from scribe service
     id: valint_report
     uses: scribe-security/action-report@master
     with:
-        verbose: 2
         scribe-enable: true
         product-key:  ${{ secrets.product-key }}
         scribe-client-id: ${{ secrets.client-id }}
